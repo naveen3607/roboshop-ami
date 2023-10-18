@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket  = "terraform-state-db74"
+    key     = "aws-parameters/terraform.tfstate"
+    region  = "us-east-1"
+  }
+}
+
 data "aws_ami" "ami" {
   most_recent = true
   name_regex = "Centos-8-DevOps-Practice"
@@ -22,7 +30,6 @@ resource "null_resource" "commands" {
       user = "root"
       password = "DevOps321"
       host = aws_instance.ami.private_ip
-      vpc_security_group_ids = [data.aws_security_group.sg.id]
     }
 
     inline = [
